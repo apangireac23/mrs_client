@@ -1,0 +1,99 @@
+:root {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  --text-color: #0f172a;
+  --muted-strong: #475569;
+  --muted-color: #64748b;
+  --page-bg:
+    radial-gradient(circle at top left, rgba(148, 163, 184, 0.18), transparent 28%),
+    linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  --panel-bg: #ffffff;
+  --chip-bg: #e2e8f0;
+  --border-color: #dbe2ea;
+  --border-soft: #e2e8f0;
+  --button-bg: #0f172a;
+  --button-text: #ffffff;
+  --secondary-bg: #e2e8f0;
+  --secondary-text: #0f172a;
+  --input-bg: #ffffff;
+  --shadow-color: rgba(15, 23, 42, 0.06);
+  --error-bg: #fef2f2;
+  --error-border: #fecaca;
+  --error-text: #b91c1c;
+  --success-bg: #ecfdf5;
+  --success-border: #a7f3d0;
+  --success-text: #047857;
+}
+
+:root[data-theme='dark'] {
+  --text-color: #e5eef8;
+  --muted-strong: #b4c3d7;
+  --muted-color: #93a4ba;
+  --page-bg:
+    radial-gradient(circle at top left, rgba(94, 234, 212, 0.12), transparent 24%),
+    linear-gradient(180deg, #0f172a 0%, #111827 100%);
+  --panel-bg: #162133;
+  --chip-bg: #223045;
+  --border-color: #2f425d;
+  --border-soft: #24344b;
+  --button-bg: #e5eef8;
+  --button-text: #111827;
+  --secondary-bg: #223045;
+  --secondary-text: #e5eef8;
+  --input-bg: #0f172a;
+  --shadow-color: rgba(2, 6, 23, 0.45);
+  --error-bg: rgba(127, 29, 29, 0.28);
+  --error-border: #7f1d1d;
+  --error-text: #fecaca;
+  --success-bg: rgba(6, 78, 59, 0.28);
+  --success-border: #065f46;
+  --success-text: #a7f3d0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--text-color);
+  background: var(--page-bg);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: var(--button-bg);
+  color: var(--button-text);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: var(--input-bg);
+  color: var(--text-color);
+}
+
+.secondary-button {
+  background: var(--secondary-bg);
+  color: var(--secondary-text);
+}
+
+a {
+  color: inherit;
+}
