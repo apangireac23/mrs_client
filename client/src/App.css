@@ -247,6 +247,10 @@
   padding: 28px;
 }
 
+.auth-callback-card {
+  text-align: left;
+}
+
 .mode-toggle button {
   flex: 1;
 }

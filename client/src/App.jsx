@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppShell } from './components/AppShell'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { AuthCallbackPage } from './pages/AuthCallbackPage'
 import { AuthPage } from './pages/AuthPage'
 import { DiscoverPage } from './pages/DiscoverPage'
 import { LandingPage } from './pages/LandingPage'
@@ -13,6 +14,7 @@ function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/auth" element={<AuthPage />} />
+      <Route path="/auth/callback" element={<AuthCallbackPage />} />
       <Route
         path="/app"
         element={
