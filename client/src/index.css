@@ -1,58 +1,103 @@
+/* ============================================
+   Auteur Cinema — Design System Foundation
+   Based on Stitch "The Cinematic Immersive"
+   ============================================ */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes subtlePulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 1; }
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 :root {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  /* === Typography Tokens === */
+  --font-display: "Epilogue", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Inter", sans-serif;
+
+  font-family: var(--font-body);
   line-height: 1.5;
   font-weight: 400;
-  --text-color: #0f172a;
-  --muted-strong: #475569;
-  --muted-color: #64748b;
-  --page-bg:
-    radial-gradient(circle at top left, rgba(148, 163, 184, 0.18), transparent 28%),
-    linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
-  --panel-bg: #ffffff;
-  --chip-bg: #e2e8f0;
-  --border-color: #dbe2ea;
-  --border-soft: #e2e8f0;
-  --button-bg: #0f172a;
-  --button-text: #ffffff;
-  --secondary-bg: #e2e8f0;
-  --secondary-text: #0f172a;
-  --input-bg: #ffffff;
-  --shadow-color: rgba(15, 23, 42, 0.06);
-  --error-bg: #fef2f2;
-  --error-border: #fecaca;
-  --error-text: #b91c1c;
-  --success-bg: #ecfdf5;
-  --success-border: #a7f3d0;
-  --success-text: #047857;
-}
 
-:root[data-theme='dark'] {
-  --text-color: #e5eef8;
-  --muted-strong: #b4c3d7;
-  --muted-color: #93a4ba;
-  --page-bg:
-    radial-gradient(circle at top left, rgba(94, 234, 212, 0.12), transparent 24%),
-    linear-gradient(180deg, #0f172a 0%, #111827 100%);
-  --panel-bg: #162133;
-  --chip-bg: #223045;
-  --border-color: #2f425d;
-  --border-soft: #24344b;
-  --button-bg: #e5eef8;
-  --button-text: #111827;
-  --secondary-bg: #223045;
-  --secondary-text: #e5eef8;
-  --input-bg: #0f172a;
-  --shadow-color: rgba(2, 6, 23, 0.45);
-  --error-bg: rgba(127, 29, 29, 0.28);
-  --error-border: #7f1d1d;
-  --error-text: #fecaca;
-  --success-bg: rgba(6, 78, 59, 0.28);
-  --success-border: #065f46;
+  /* === Color Tokens (Dark Cinema) === */
+  --primary: #a2a6ff;
+  --primary-dim: #595fff;
+  --primary-container: #9297ff;
+  --on-primary-fixed: #000000;
+  --secondary: #9891fe;
+  --secondary-container: #3f369f;
+  --on-secondary-container: #cfcbff;
+  --tertiary: #ffade6;
+  --tertiary-dim: #f088d4;
+
+  --background: #0e0e10;
+  --surface-dim: #0e0e10;
+  --surface-container-lowest: #000000;
+  --surface-container-low: #131315;
+  --surface-container: #19191c;
+  --surface-container-high: #1f1f22;
+  --surface-container-highest: #262528;
+  --surface-variant: rgba(38, 37, 40, 0.6);
+  --surface-bright: #2c2c2f;
+  --outline: #767577;
+  --outline-variant: rgba(72, 71, 74, 0.15);
+  --on-surface: #f6f3f5;
+  --on-surface-variant: #acaaad;
+
+  /* === Semantic Mappings === */
+  --text-color: var(--on-surface);
+  --muted-strong: #acaaad;
+  --muted-color: #8a8a8d;
+
+  --page-bg: var(--background);
+  --panel-bg: var(--surface-container);
+  --chip-bg: var(--surface-container-high);
+
+  --border-color: var(--outline-variant);
+  --border-soft: rgba(72, 71, 74, 0.08);
+
+  --button-bg: var(--primary);
+  --button-text: var(--on-primary-fixed);
+  --secondary-bg: var(--surface-variant);
+  --secondary-text: var(--on-surface);
+
+  --input-bg: var(--surface-container-lowest);
+  --shadow-color: rgba(246, 243, 245, 0.06);
+
+  /* Error / Success */
+  --error-bg: rgba(167, 1, 56, 0.25);
+  --error-border: rgba(255, 110, 132, 0.3);
+  --error-text: #ff6e84;
+
+  --success-bg: rgba(6, 78, 59, 0.25);
+  --success-border: rgba(167, 243, 208, 0.3);
   --success-text: #a7f3d0;
+
+  /* === Gradients === */
+  --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-dim));
+  --gradient-hero: linear-gradient(135deg, #a2a6ff, #595fff, #f088d4);
+  --gradient-glow: 0 0 30px rgba(162, 166, 255, 0.15);
 }
 
+/* === Global Resets === */
 * {
   box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 body {
@@ -60,8 +105,12 @@ body {
   min-width: 320px;
   color: var(--text-color);
   background: var(--page-bg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* === Base Elements === */
 button,
 input {
   font: inherit;
@@ -70,30 +119,105 @@ input {
 button {
   border: 0;
   border-radius: 12px;
-  padding: 10px 14px;
-  background: var(--button-bg);
+  padding: 12px 24px;
+  background: var(--primary);
+  background-image: var(--gradient-primary);
   color: var(--button-text);
   cursor: pointer;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--gradient-glow);
+}
+
+button:hover:not(:disabled)::after {
+  opacity: 1;
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 input {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--outline-variant);
   border-radius: 12px;
-  padding: 10px 12px;
+  padding: 14px 18px;
   background: var(--input-bg);
   color: var(--text-color);
+  font-family: var(--font-label);
+  font-size: 0.875rem;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+input:focus {
+  outline: none;
+  border-color: rgba(162, 166, 255, 0.4);
+  box-shadow: 0 0 0 4px rgba(162, 166, 255, 0.08), 0 0 20px rgba(162, 166, 255, 0.1);
+}
+
+input::placeholder {
+  color: var(--muted-color);
 }
 
 .secondary-button {
-  background: var(--secondary-bg);
+  background: var(--surface-variant);
+  background-image: none;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   color: var(--secondary-text);
+  border: 1px solid var(--outline-variant);
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: var(--surface-container-high);
+  border-color: rgba(72, 71, 74, 0.4);
 }
 
 a {
   color: inherit;
+}
+
+/* === Scrollbar === */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-container-high);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--outline);
+}
+
+/* === Selection === */
+::selection {
+  background: rgba(162, 166, 255, 0.3);
+  color: var(--on-surface);
 }

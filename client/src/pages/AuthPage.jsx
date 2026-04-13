@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import { ThemeToggle } from '../components/ThemeToggle'
+import { Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 
@@ -108,16 +107,9 @@ export function AuthPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-topbar">
-          <div>
-            <p className="eyebrow">Supabase Auth</p>
-            <h1>{mode === 'login' ? 'Login' : 'Create account'}</h1>
-            <p className="auth-copy">
-              Sign in to browse movies, log interactions, and fetch recommendations.
-            </p>
-          </div>
-
-          <ThemeToggle />
+        <div className="auth-card-header">
+          <h1>{mode === 'login' ? 'Sign in to your account' : 'Create your account'}</h1>
+          <p>Experience the art of cinematic curation</p>
         </div>
 
         <div className="mode-toggle">
@@ -148,13 +140,14 @@ export function AuthPage() {
           />
 
           <label>
-            Email
+            Email Address
             <input
               type="email"
               name="auth-email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               autoComplete="off"
+              placeholder="you@example.com"
               required
             />
           </label>
@@ -167,17 +160,36 @@ export function AuthPage() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               autoComplete="new-password"
+              placeholder="Enter your password"
               required
             />
           </label>
 
           <button type="submit" disabled={loading}>
-            {loading ? 'Submitting...' : mode === 'login' ? 'Login' : 'Signup'}
+            {loading ? 'Authenticating...' : mode === 'login' ? 'Sign In' : 'Create Account'}
           </button>
         </form>
 
         {error ? <p className="form-error">{error}</p> : null}
         {message ? <p className="form-success">{message}</p> : null}
+
+        <div className="auth-footer">
+          {mode === 'login' ? (
+            <p>
+              New to the theater?{' '}
+              <a href="#" onClick={(e) => { e.preventDefault(); resetCredentials('signup') }}>
+                Create an account
+              </a>
+            </p>
+          ) : (
+            <p>
+              Already have an account?{' '}
+              <a href="#" onClick={(e) => { e.preventDefault(); resetCredentials('login') }}>
+                Sign in
+              </a>
+            </p>
+          )}
+        </div>
       </div>
     </div>
   )

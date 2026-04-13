@@ -3,9 +3,9 @@ import { useAuth } from '../hooks/useAuth'
 import { apiRequest } from '../lib/api'
 
 const sections = [
-  { key: 'liked', title: 'Liked' },
-  { key: 'watched', title: 'Watched' },
-  { key: 'skipped', title: 'Skipped' },
+  { key: 'liked', title: 'Liked', icon: 'favorite', color: '#ff6e84' },
+  { key: 'watched', title: 'Watched', icon: 'play_circle', color: '#a2a6ff' },
+  { key: 'skipped', title: 'Skipped', icon: 'cancel', color: '#8a8a8d' },
 ]
 
 export function ProfilePage() {
@@ -68,22 +68,38 @@ export function ProfilePage() {
     loadHistory()
   }, [session.access_token])
 
+  const totalInteractions = history.liked.length + history.watched.length + history.skipped.length
+
   return (
     <section className="page-section">
       <div className="section-header">
         <div>
-          <h2>Interaction history</h2>
-          <p>Review the movies you have liked, watched, and skipped.</p>
+          <h2>Interaction History</h2>
+          <p>
+            A curated chronicle of your cinematic journey. Review your past interactions,
+            refined selections, and the films that didn't quite make the cut.
+          </p>
         </div>
       </div>
 
-      {loading ? <div className="page-message">Loading history...</div> : null}
+      {loading ? (
+        <div className="loading-indicator">
+          <span className="loading-dot" />
+          <span className="loading-dot" />
+          <span className="loading-dot" />
+          <span>Loading history...</span>
+        </div>
+      ) : null}
+
       {error ? <div className="page-message error">{error}</div> : null}
 
       <div className="history-grid">
         {sections.map((section) => (
           <div key={section.key} className="history-panel">
-            <h3>{section.title}</h3>
+            <div className={`history-panel-header ${section.key}`}>
+              <span className="material-icons-round">{section.icon}</span>
+              <h3>{section.title}</h3>
+            </div>
 
             {history[section.key].length === 0 ? (
               <p className="empty-copy">No {section.key} movies yet.</p>
@@ -98,6 +114,19 @@ export function ProfilePage() {
           </div>
         ))}
       </div>
+
+      {!loading && totalInteractions > 0 ? (
+        <div className="history-insight">
+          <h3>
+            <span className="material-icons-round" style={{ fontSize: '18px', verticalAlign: 'middle', marginRight: '8px', color: 'var(--primary)' }}>insights</span>
+            You've interacted with {totalInteractions} films
+          </h3>
+          <p>
+            Based on your history, we've unlocked deeper personalization for your
+            recommendations. Keep exploring to refine your taste profile further.
+          </p>
+        </div>
+      ) : null}
     </section>
   )
 }

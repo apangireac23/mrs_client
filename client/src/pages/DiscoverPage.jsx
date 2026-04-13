@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { MovieCard } from '../components/MovieCard'
 import { useAuth } from '../hooks/useAuth'
-import { apiRequest } from '../lib/api'
+import { apiRequest, addToWatchlist, removeFromWatchlist } from '../lib/api'
 
 export function DiscoverPage() {
   const { session } = useAuth()
@@ -11,9 +11,11 @@ export function DiscoverPage() {
   const [error, setError] = useState('')
   const [pendingMovieId, setPendingMovieId] = useState('')
   const [eventMessages, setEventMessages] = useState({})
+  const [watchlist, setWatchlist] = useState(new Set())
 
   useEffect(() => {
     loadPopularMovies()
+    loadWatchlist()
   }, [])
 
   async function loadPopularMovies() {
@@ -27,6 +29,41 @@ export function DiscoverPage() {
       setError(requestError.message)
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function loadWatchlist() {
+    try {
+      const data = await apiRequest('/api/watchlist', { token: session.access_token })
+      const watchlistSet = new Set((data.results || []).map((item) => item.movie_id))
+      setWatchlist(watchlistSet)
+    } catch (requestError) {
+      // Silently fail - watchlist is optional
+      console.error('Failed to load watchlist:', requestError)
+    }
+  }
+
+  async function handleToggleWatchlist(movie) {
+    const isInWatchlist = watchlist.has(movie.movie_id)
+
+    try {
+      if (isInWatchlist) {
+        await removeFromWatchlist(session.access_token, movie.movie_id)
+        setWatchlist((prev) => {
+          const next = new Set(prev)
+          next.delete(movie.movie_id)
+          return next
+        })
+      } else {
+        await addToWatchlist(session.access_token, movie)
+        setWatchlist((prev) => {
+          const next = new Set(prev)
+          next.add(movie.movie_id)
+          return next
+        })
+      }
+    } catch (requestError) {
+      setError(requestError.message)
     }
   }
 
@@ -87,23 +124,42 @@ export function DiscoverPage() {
       <div className="section-header">
         <div>
           <h2>Discover movies</h2>
-          <p>Browse popular titles or search TMDB through the backend.</p>
+          <p>
+            Curated cinema for the refined viewer. Explore avant-garde masterpieces,
+            contemporary legends, and hidden gems from the global film circuit.
+          </p>
         </div>
 
         <form className="search-form" onSubmit={handleSearch}>
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search movies"
+            placeholder="Search movies..."
           />
-          <button type="submit">Search</button>
+          <button type="submit">
+            <span className="material-icons-round" style={{ fontSize: '18px', verticalAlign: 'middle', marginRight: '6px' }}>search</span>
+            Search
+          </button>
         </form>
       </div>
 
-      {loading ? <div className="page-message">Loading movies...</div> : null}
+      {loading ? (
+        <div className="loading-indicator">
+          <span className="loading-dot" />
+          <span className="loading-dot" />
+          <span className="loading-dot" />
+          <span>Loading movies...</span>
+        </div>
+      ) : null}
+
       {error ? <div className="page-message error">{error}</div> : null}
+
       {!loading && !error && movies.length === 0 ? (
-        <div className="page-message">No movies found.</div>
+        <div className="reco-empty">
+          <span className="material-icons-round reco-empty-icon">movie_filter</span>
+          <h3>No movies found</h3>
+          <p>Try a different search term or browse popular titles.</p>
+        </div>
       ) : null}
 
       <div className="movie-grid">
@@ -114,6 +170,8 @@ export function DiscoverPage() {
             pendingEvent={pendingMovieId === movie.movie_id}
             eventMessage={eventMessages[movie.movie_id]}
             onInteract={handleInteract}
+            inWatchlist={watchlist.has(movie.movie_id)}
+            onToggleWatchlist={handleToggleWatchlist}
           />
         ))}
       </div>

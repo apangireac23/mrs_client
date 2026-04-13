@@ -7,6 +7,7 @@ import { DiscoverPage } from './pages/DiscoverPage'
 import { LandingPage } from './pages/LandingPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { RecommendationsPage } from './pages/RecommendationsPage'
+import { WatchlistPage } from './pages/WatchlistPage'
 import './App.css'
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
       >
         <Route index element={<DiscoverPage />} />
         <Route path="recommendations" element={<RecommendationsPage />} />
+        <Route path="watchlist" element={<WatchlistPage />} />
         <Route path="profile" element={<ProfilePage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

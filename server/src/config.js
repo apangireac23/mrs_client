@@ -15,6 +15,7 @@ export const config = {
   supabaseServiceKey: process.env.SUPABASE_SERVICE_KEY || '',
   tmdbApiKey: process.env.TMDB_API_KEY || '',
   recommenderApiUrl: process.env.RECOMMENDER_API_URL || '',
+  sentryDsn: process.env.SENTRY_DSN || '',
 }
 
 export function getMissingEnvVars() {

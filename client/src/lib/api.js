@@ -23,3 +23,27 @@ export async function apiRequest(path, { method = 'GET', token, body } = {}) {
 
   return data
 }
+
+export async function getWatchlist(token) {
+  return apiRequest('/api/watchlist', { token })
+}
+
+export async function addToWatchlist(token, movie) {
+  return apiRequest('/api/watchlist', {
+    method: 'POST',
+    token,
+    body: {
+      movie_id: movie.movie_id,
+      title: movie.title,
+      poster_url: movie.poster_url,
+      release_date: movie.release_date,
+    },
+  })
+}
+
+export async function removeFromWatchlist(token, movieId) {
+  return apiRequest(`/api/watchlist/${movieId}`, {
+    method: 'DELETE',
+    token,
+  })
+}

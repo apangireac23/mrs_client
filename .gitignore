@@ -24,8 +24,33 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# OS / editor
+# Testing
+coverage/
+client/coverage/
+server/coverage/
+
+# Sentry
+.sentryclirc
+*.sentrycli
+
+# IDE / editor
 .DS_Store
 Thumbs.db
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 .idea/
+*.swp
+*.swo
+*~
+
+# OS cache
+.AppleDouble
+.LSOverride
+
+# Claude Code (optional - remove if you want to share configs)
+.claude/
+
+# Markdown files
+CLAUDE.md
+DEPLOYMENT.md
+PRODUCTION_SETUP.md

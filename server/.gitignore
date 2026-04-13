@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+
+# Sentry
+.sentryclirc
+*.sentrycli
+
+# IDE
+.vscode/
+.idea/
+*.swp

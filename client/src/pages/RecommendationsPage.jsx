@@ -42,20 +42,38 @@ export function RecommendationsPage() {
 
   return (
     <section className="page-section">
-      <div className="section-header">
-        <div>
-          <h2>Recommendations</h2>
-          <p>Fetch personalized recommendations through the Express BFF.</p>
+      {/* Hero Banner */}
+      <div className="reco-hero">
+        <div className="reco-hero-text">
+          <h2>Your Premiere Selection</h2>
+          <p>
+            Our algorithm has analyzed your viewing history to curate a premiere-quality
+            selection of cinema that matches your unique artistic palate.
+          </p>
+          <span className="reco-genre-chip">
+            <span className="material-icons-round" style={{ fontSize: '14px', verticalAlign: 'middle', marginRight: '4px' }}>auto_awesome</span>
+            AI-Powered
+          </span>
         </div>
-
         <button onClick={handleFetchRecommendations} disabled={loading}>
-          {loading ? 'Loading...' : 'Get Recommendations'}
+          <span className="material-icons-round" style={{ fontSize: '18px', verticalAlign: 'middle', marginRight: '8px' }}>
+            {loading ? 'hourglass_top' : 'movie_filter'}
+          </span>
+          {loading ? 'Generating...' : 'Get Recommendations'}
         </button>
       </div>
 
       {error ? <div className="page-message error">{error}</div> : null}
+
       {!loading && recommendations.length === 0 ? (
-        <div className="page-message">No recommendations loaded yet.</div>
+        <div className="reco-empty">
+          <span className="material-icons-round reco-empty-icon">theaters</span>
+          <h3>No recommendations loaded yet</h3>
+          <p>
+            Refine your taste profile by rating more films or use the generator
+            above to refresh your feed.
+          </p>
+        </div>
       ) : null}
 
       <div className="movie-grid">
