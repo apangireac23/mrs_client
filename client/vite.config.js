@@ -6,10 +6,11 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 export default defineConfig({
   plugins: [
     react(),
+    // eslint-disable-next-line no-undef
     sentryVitePlugin({
       org: 'your-org',
       project: 'your-project',
-      authToken: process.env.SENTRY_AUTH_TOKEN,
+      authToken: import.meta.env.SENTRY_AUTH_TOKEN,
     }),
   ],
   build: {

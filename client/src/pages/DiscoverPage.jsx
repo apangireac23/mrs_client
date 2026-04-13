@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { MovieCard } from '../components/MovieCard'
 import { useAuth } from '../hooks/useAuth'
 import { apiRequest, addToWatchlist, removeFromWatchlist } from '../lib/api'
@@ -13,9 +13,21 @@ export function DiscoverPage() {
   const [eventMessages, setEventMessages] = useState({})
   const [watchlist, setWatchlist] = useState(new Set())
 
+  const loadWatchlist = useCallback(async () => {
+    try {
+      const data = await apiRequest('/api/watchlist', { token: session?.access_token })
+      const watchlistSet = new Set((data.results || []).map((item) => item.movie_id))
+      setWatchlist(watchlistSet)
+    } catch (requestError) {
+      // Silently fail - watchlist is optional
+      console.error('Failed to load watchlist:', requestError)
+    }
+  }, [session?.access_token])
+
   useEffect(() => {
     loadPopularMovies()
     loadWatchlist()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function loadPopularMovies() {
@@ -32,16 +44,6 @@ export function DiscoverPage() {
     }
   }
 
-  async function loadWatchlist() {
-    try {
-      const data = await apiRequest('/api/watchlist', { token: session.access_token })
-      const watchlistSet = new Set((data.results || []).map((item) => item.movie_id))
-      setWatchlist(watchlistSet)
-    } catch (requestError) {
-      // Silently fail - watchlist is optional
-      console.error('Failed to load watchlist:', requestError)
-    }
-  }
 
   async function handleToggleWatchlist(movie) {
     const isInWatchlist = watchlist.has(movie.movie_id)

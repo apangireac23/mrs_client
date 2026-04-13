@@ -11,7 +11,8 @@ export function WatchlistPage() {
 
   useEffect(() => {
     loadWatchlist()
-  }, [session.access_token])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function loadWatchlist() {
     setLoading(true)
